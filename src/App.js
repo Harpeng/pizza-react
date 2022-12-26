@@ -1,25 +1,20 @@
 import React from "react";
 import "./scss/app.scss";
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
+
 import Header from "./components/Header";
-import Categories from "./components/Categories";
-import Sort from "./components/Sort";
-import PizzaBlock from "./components/PizzaBlock";
+import Home from "./pages/home.jsx";
+import NotFound from "./pages/notFound.jsx";
+import Cart from "./pages/cart.jsx";
+
 
 
 
 function App() {
-  let [items, setItems] = React.useState([]);
-
-
-React.useEffect(() => {
-  fetch('https://638e1e95aefc455fb2b59325.mockapi.io/items')
-  .then((res) => {
-    return res.json();
-  })
-  .then((arr) => {
-    setItems(arr);
-  });
-}, []);
 
 
   return (
@@ -27,16 +22,11 @@ React.useEffect(() => {
       <Header />
       <div className="content">
         <div className="container">
-          <div className="content__top">
-            <Categories />
-            <Sort />
-          </div>
-          <h2 className="content__title">Все пиццы</h2>
-          <div className="content__items">
-          {items.map((obj) => (
-              <PizzaBlock key={obj.id} {...obj}/> // передали целый объект через спред оператор, ключи объекта указаны в пропсах компонента
-              ))}
-          </div>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="*" element={<NotFound />} />
+            <Route path="/cart" element={<Cart />} />
+          </Routes>
         </div>
       </div>
     </div>
